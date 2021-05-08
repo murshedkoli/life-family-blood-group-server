@@ -24,12 +24,12 @@ client.connect(err => {
     donerCollection.find({ phone: req.body.phone })
       .toArray((err, document) => {
         if (document.length) {
-          res.send(0)
+          res.send(data)
         } else {
 
           donerCollection.insertOne(req.body)
             .then(result => {
-              res.send(1)
+              res.send(0)
 
             })
         }
