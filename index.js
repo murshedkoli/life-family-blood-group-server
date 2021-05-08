@@ -18,33 +18,43 @@ const port = 5000
 
 client.connect(err => {
   const donerCollection = client.db("life-family").collection("doner");
- 
+
 
   app.post('/adddoner', (req, res) => {
-    donerCollection.insertOne(req.body)
-        .then(result => {
-           res.send(result)
+    donerCollection.find({ phone: req.body.phone })
+      .toArray((err, document) => {
+        if (document.length) {
+          res.send(0)
+        } else {
 
-        })
+          donerCollection.insertOne(req.body)
+            .then(result => {
+              res.send(1)
 
-});
+            })
+        }
+      })
 
 
 
-app.get('/doner', (req, res) => {
-    const group= req.query.blood;
-    donerCollection.find({blood: {$regex: group}})
-        .toArray((err, documents) => {
-            res.send(documents);
-        })
-})
+  });
+
+
+
+  app.get('/doner', (req, res) => {
+    const group = req.query.blood;
+    donerCollection.find({ blood: { $regex: group } })
+      .toArray((err, documents) => {
+        res.send(documents);
+      })
+  })
 
 
 
 
 
   app.get('/', (req, res) => {
- 
+
     res.send('Hello World!')
   })
 
@@ -56,4 +66,4 @@ app.get('/doner', (req, res) => {
 
 
 
-app.listen(process.env.PORT ||  port)
+app.listen(process.env.PORT || port)
