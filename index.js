@@ -43,6 +43,7 @@ client.connect(err => {
 
   app.get('/doner', (req, res) => {
     const group = req.query.blood;
+    console.log(group)
     donerCollection.find({ blood: { $regex: group } })
       .toArray((err, documents) => {
         res.send(documents);
