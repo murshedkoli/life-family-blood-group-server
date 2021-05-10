@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 const uri = "mongodb+srv://life-family:jmDWm7bB926WW2XO@cluster0.dmtd1.mongodb.net/life-family?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -48,6 +49,16 @@ client.connect(err => {
         res.send(documents);
       })
   })
+
+
+  app.get('/singledoner', (req, res) => {
+    const id = req.query.id;
+    donerCollection.find({ _id: ObjectId(id) })
+      .toArray((err, document) => {
+        res.send(document[0]);
+      })
+  })
+
 
 
 
