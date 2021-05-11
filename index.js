@@ -52,7 +52,6 @@ client.connect(err => {
   })
   app.get('/doner-search', (req, res) => {
     const name = req.query.name;
-    console.log(group)
     donerCollection.find({ name: { $regex: name } })
       .toArray((err, documents) => {
         res.send(documents);
