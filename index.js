@@ -50,6 +50,14 @@ client.connect(err => {
         res.send(documents);
       })
   })
+  app.get('/doner-search', (req, res) => {
+    const name = req.query.blood;
+    console.log(group)
+    donerCollection.find({ name: { $regex: name } })
+      .toArray((err, documents) => {
+        res.send(documents);
+      })
+  })
 
 
   app.get('/singledoner', (req, res) => {
