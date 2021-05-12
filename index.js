@@ -52,9 +52,19 @@ client.connect(err => {
   })
   app.get('/doner-search', (req, res) => {
     const name = req.query.name;
-    donerCollection.find({ name: { $regex: name } })
+    donerCollection.find({ name: { $regex: name.toLocaleLowerCase() } })
       .toArray((err, documents) => {
         res.send(documents);
+      })
+  })
+
+
+  app.patch('/updateLastDate', (req, res) => {
+    
+    donerCollection.updateOne({_id: ObjectId(req.body.id)},
+    { $set: { lastDate: req.body.today} })
+      .then(result=>{
+        res.send(result)
       })
   })
 
